@@ -13,7 +13,7 @@ public class Memory {
 		
 	}
 	
-	Memory(Memory next, int memoryLocation)
+	Memory(Memory next, int memoryLocation, boolean allocated)
 	{
 		freeBit = false;
 		
@@ -21,10 +21,13 @@ public class Memory {
 		Random r_obj = new Random();
 		
 		// Generate a random size from 10-100
-		size = r_obj.nextInt(100-10) + 10;
+		size = r_obj.nextInt(100-50) + 50;
 		
 		// Point to the next one
 		this.next = next;
+		
+		// Set allocated
+		this.freeBit = allocated;
 		
 		// Set current Memory Location
 		this.memoryLocation = memoryLocation;
@@ -32,6 +35,7 @@ public class Memory {
 	
 	public int getSize() {return this.size;}
 	public int getMemoryLocation() {return this.memoryLocation;}
+	public boolean getFreeBit() {return this.freeBit;}
 
 	
 	

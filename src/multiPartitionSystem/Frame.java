@@ -34,6 +34,9 @@ public class Frame extends JFrame {
 	// Process panel
 	public JPanel processPanel = new JPanel();
 	
+	// Error message panel
+	public JPanel errorPanel = new JPanel();
+	
 	// God
 	public God god;
 
@@ -64,9 +67,10 @@ public class Frame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel contentPane = new JPanel();
+		this.contentPane = contentPane;
 		
 		// Set size and position of window
-		setBounds(20, 20, 1200, 600);
+		setBounds(20, 20, 1200, 900);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -78,7 +82,7 @@ public class Frame extends JFrame {
 		
 		// Set the rows of the grid
 		//gbl_contentPane.rowHeights = new int[]{20, 100, 106, 80, 20, 351, 51, 0};
-		gbl_contentPane.rowHeights = new int[]{20, 100, 20, 100, 20, 100, 20, 100, 50};
+		gbl_contentPane.rowHeights = new int[]{20, 100, 20, 100, 20, 100, 20, 100, 50, 20};
 		
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -216,9 +220,29 @@ public class Frame extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        //your actions
 		    	god.newProcess();
-		    	System.out.print("new process\n");
 		    }
 		});
+		
+		
+		// Add spot for error message
+		// Show Busy Memory List
+		GridBagConstraints gbc_panel5 = new GridBagConstraints();
+		gbc_panel5.ipady = 10;
+		gbc_panel5.ipadx = 10;
+		gbc_panel5.insets = new Insets(0, 0, 5, 5);
+		gbc_panel5.fill = GridBagConstraints.BOTH;
+		gbc_panel5.gridx = 0;
+		gbc_panel5.gridy = 9;
+		gbc_panel5.gridheight = 1;
+		
+		contentPane.add(this.errorPanel, gbc_panel5);
+		GridBagLayout gbl_error_panel = new GridBagLayout();
+		gbl_error_panel.columnWidths = new int[]{0,70,0};
+		gbl_error_panel.rowHeights = new int[]{0};
+		gbl_error_panel.columnWeights = new double[]{0,0,0};
+		gbl_error_panel.rowWeights = new double[]{Double.MIN_VALUE};
+		this.errorPanel.setLayout(gbl_error_panel);
+		this.errorPanel.setBackground(Color.yellow);
 		
 	}
 

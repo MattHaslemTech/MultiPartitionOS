@@ -134,20 +134,23 @@ public class God {
 			}
 		}
 		
-		// Create new allocated memory with the given mem location
-		Memory tempMem = new Memory(chosenFreeSpace.next, chosenFreeSpace.memoryLocation, true);
-		tempMem.size = procSize;
-		tempMem.memoryLocation = chosenFreeSpace.memoryLocation;
 		
-		this.busyList.add(0, tempMem);
+		
+		
 		
 		// remove process from ready list
 		this.readyProcesses.remove(proc);
 		
 		// Change the free spots' location and size
 		chosenFreeSpace.size -= procSize;
-		chosenFreeSpace.memoryLocation += procSize + 1;
+		//chosenFreeSpace.memoryLocation += procSize + 1;
+		
+		// Create new allocated memory at end of free list
+		Memory tempMem = new Memory(chosenFreeSpace.next, chosenFreeSpace.memoryLocation, true);
+		tempMem.size = procSize;
+		tempMem.memoryLocation = chosenFreeSpace.memoryLocation + chosenFreeSpace.size + 1;
 				
+		this.busyList.add(0, tempMem);
 		
 		// display all lists
 		this.displayBusyList();
@@ -163,8 +166,16 @@ public class God {
 	
 	public void deallocateProcess(Memory mem)
 	{
-		int indexOfProcessInAll = this.allList.indexOf(mem);
-		int indexOfProcessInBusy = this.busyList.indexOf(mem);
+		// Create a temp list so we don't mess up original
+		List<Memory> tempAllList = this.allList;
+		List<Memory> tempBusyList = this.busyList; 
+		
+		// Reverse the list to put in the right order 
+		Collections.reverse(tempAllList);
+		Collections.reverse(tempBusyList);
+				
+		int indexOfProcessInAll = tempAllList.indexOf(mem);
+		int indexOfProcessInBusy = tempBusyList.indexOf(mem);
 		
 		// Remove from busy
 		this.busyList.remove(mem);
@@ -172,12 +183,45 @@ public class God {
 		// Remove from all
 		this.allList.remove(mem);
 		
-		// Find previous list item
-		/*
-		Memory prevMem = this.allList.get(indexOfProcessInAll - 2);
-		Memory nextMem = this.allList.get(indexOfProcessInAll);
-		*/
+		System.out.println("Deallocate all: " + indexOfProcessInAll);
+		System.out.println("Deallocate busy: " + indexOfProcessInBusy);
 		
+		
+		Memory prevMem = new Memory();
+		Memory nextMem = new Memory();
+		// Find previous list item
+		if( indexOfProcessInAll > 0)
+		{
+			prevMem = tempAllList.get(indexOfProcessInAll - 1);
+		}
+		if( indexOfProcessInAll < tempAllList.size() - 1 )
+		{
+			nextMem = tempAllList.get(indexOfProcessInAll);
+		}
+		
+		// Keep track if both allocated, prev allocated, next allocated, or both free
+		String allocStatus = "";
+		
+		// If the previous is allocated
+		if(prevMem.freeBit && nextMem.freeBit)
+		{
+			allocStatus = "both allocated";
+		}
+		if(!prevMem.freeBit && nextMem.freeBit)
+		{
+			allocStatus = "next allocated";
+		}
+		if(prevMem.freeBit && !nextMem.freeBit)
+		{
+			allocStatus = "prev allocated";
+		}
+		if(!prevMem.freeBit && !nextMem.freeBit)
+		{
+			allocStatus = "both free";
+		}
+		
+		System.out.println(allocStatus);
+
 		this.displayAllList();
 		displayBusyList();
 	}

@@ -20,19 +20,22 @@ import javax.swing.border.LineBorder;
 public class Frame extends JFrame {
 
 	// All Content
-	private JPanel contentPane;
+	public JPanel contentPane;
 	
 	// All Memory
-	private JPanel memoryPanel = new JPanel();
+	public JPanel memoryPanel = new JPanel();
 	
 	// Free Memory
-	private JPanel freeMemoryPanel = new JPanel();
+	public JPanel freeMemoryPanel = new JPanel();
 	
 	// Busy Memory
-	private JPanel busyMemoryPanel = new JPanel();
+	public JPanel busyMemoryPanel = new JPanel();
 	
 	// Process panel
-	private JPanel processPanel = new JPanel();
+	public JPanel processPanel = new JPanel();
+	
+	// God
+	public God god;
 
 	/**
 	 * Launch the application.
@@ -55,7 +58,9 @@ public class Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Frame() {
+	public Frame(God god) {
+		this.god = god;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel contentPane = new JPanel();
@@ -73,7 +78,7 @@ public class Frame extends JFrame {
 		
 		// Set the rows of the grid
 		//gbl_contentPane.rowHeights = new int[]{20, 100, 106, 80, 20, 351, 51, 0};
-		gbl_contentPane.rowHeights = new int[]{20, 100, 20, 100, 20, 100, 51, 0};
+		gbl_contentPane.rowHeights = new int[]{20, 100, 20, 100, 20, 100, 20, 100, 50};
 		
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -98,8 +103,10 @@ public class Frame extends JFrame {
 		gbc_panel.gridheight = 1;
 		
 		contentPane.add(this.freeMemoryPanel, gbc_panel);
+		
+		
 		GridBagLayout gbl_ready_panel = new GridBagLayout();
-		gbl_ready_panel.columnWidths = new int[]{0,70,0};
+		gbl_ready_panel.columnWidths = new int[]{0,70,70,70,70,70,70,70,0};
 		gbl_ready_panel.rowHeights = new int[]{0};
 		gbl_ready_panel.columnWeights = new double[]{0,0,0};
 		gbl_ready_panel.rowWeights = new double[]{Double.MIN_VALUE};
@@ -127,7 +134,7 @@ public class Frame extends JFrame {
 		
 		contentPane.add(this.busyMemoryPanel, gbc_panel2);
 		GridBagLayout gbl_busy_panel = new GridBagLayout();
-		gbl_busy_panel.columnWidths = new int[]{0,70,0};
+		gbl_busy_panel.columnWidths = new int[]{0,70,70,70,70,70,70,70,0};
 		gbl_busy_panel.rowHeights = new int[]{0};
 		gbl_busy_panel.columnWeights = new double[]{0,0,0};
 		gbl_busy_panel.rowWeights = new double[]{Double.MIN_VALUE};
@@ -136,7 +143,7 @@ public class Frame extends JFrame {
 		
 		
 		// Show Busy Memory List
-		JLabel All_Memory_Label = new JLabel("Busy Memory List");
+		JLabel All_Memory_Label = new JLabel("All Memory List");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
 		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_7.gridx = 0;
@@ -154,7 +161,7 @@ public class Frame extends JFrame {
 		
 		contentPane.add(this.memoryPanel, gbc_panel3);
 		GridBagLayout gbl_all_panel = new GridBagLayout();
-		gbl_all_panel.columnWidths = new int[]{0,70,0};
+		gbl_all_panel.columnWidths = new int[]{0,70,70,70,70,70,70,0};
 		gbl_all_panel.rowHeights = new int[]{0};
 		gbl_all_panel.columnWeights = new double[]{0,0,0};
 		gbl_all_panel.rowWeights = new double[]{Double.MIN_VALUE};
@@ -162,14 +169,45 @@ public class Frame extends JFrame {
 		this.memoryPanel.setBackground(Color.blue);
 		
 		
+		
+		
+		// Show Busy Memory List
+		JLabel Processes_Label = new JLabel("Ready Processes");
+		GridBagConstraints gbc_lblNewLabel_8 = new GridBagConstraints();
+		gbc_lblNewLabel_8.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_8.gridx = 0;
+		gbc_lblNewLabel_8.gridy = 6;
+		contentPane.add(Processes_Label, gbc_lblNewLabel_8);
+		
+		GridBagConstraints gbc_panel4 = new GridBagConstraints();
+		gbc_panel4.ipady = 20;
+		gbc_panel4.ipadx = 20;
+		gbc_panel4.insets = new Insets(0, 0, 5, 5);
+		gbc_panel4.fill = GridBagConstraints.BOTH;
+		gbc_panel4.gridx = 0;
+		gbc_panel4.gridy = 7;
+		gbc_panel4.gridheight = 1;
+		
+		contentPane.add(this.processPanel, gbc_panel4);
+		GridBagLayout gbl_process_panel = new GridBagLayout();
+		gbl_process_panel.columnWidths = new int[]{0,70,0};
+		gbl_process_panel.rowHeights = new int[]{0};
+		gbl_process_panel.columnWeights = new double[]{0,0,0};
+		gbl_process_panel.rowWeights = new double[]{Double.MIN_VALUE};
+		this.processPanel.setLayout(gbl_process_panel);
+		this.processPanel.setBackground(Color.yellow);
+		
+		
+		
+		
+		
 		// New Process button
 		JButton addProcessBtn = new JButton("New Process");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 6;
+		gbc_btnNewButton.gridy = 8;
 		contentPane.add(addProcessBtn, gbc_btnNewButton);
-		
 		
 		// Add process on Click
 		addProcessBtn.addActionListener(new ActionListener() {
@@ -177,7 +215,7 @@ public class Frame extends JFrame {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		        //your actions
-		    	//god.addProcess();
+		    	god.newProcess();
 		    	System.out.print("new process\n");
 		    }
 		});
